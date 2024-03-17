@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:bullseye
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_DB=events_collector
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password1
+    expose:
+      - 5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  api:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=password1
+      - DB_DBNAME=events_collector
+      - DB_PORT=5432
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/healthCheck"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+volumes:
+  pgdata:
