@@ -1,2 +1,4 @@
 node-modules/
 dist/
+
+*.postman_collection.json
