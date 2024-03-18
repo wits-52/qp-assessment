@@ -76,6 +76,9 @@ const itemQueries = {
         }
         query += ` WHERE id = ${id} ;`;
         return query;
+    },
+    searchItemByItemName: (itemName: string): string => {
+        return `SELECT * FROM Items WHERE name = '${itemName}'`;
     }
 };
 const inventoryQueries = {

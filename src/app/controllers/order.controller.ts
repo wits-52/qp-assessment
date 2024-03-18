@@ -15,7 +15,12 @@ async function saveOrder(list: Inventory[], userId: number): Promise<APIResponse
                 quantity: item.quantity
             }
         });
-
+        if (inventoryList.length !== list.length) {
+            return {
+                status: 400,
+                error: 'item list has some items which are invalid.'
+            };
+        }
         const notFulfilled = inventoryList.find(item => item.quantity < (amountRequired.get(item.itemId) || 0));
 
         const transactionId = randomUUID();

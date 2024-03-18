@@ -4,6 +4,14 @@ import { pool } from '../db/connect';
 
 async function saveItem(item: Item): Promise<APIResponse> {
     try {
+        const existingItem = (await pool.query(itemQueries.searchItemByItemName(item.name)));
+
+        if (existingItem.rows.length > 0) {
+            return {
+                status: 400,
+                error: 'item with same name exists. try updating instead.'
+            };
+        }
         await pool.query('BEGIN');
         await pool.query(itemQueries.saveItem(item));
         const itemId = (await pool.query(itemQueries.readItemsByItemName(item.name))).rows[0].id;
