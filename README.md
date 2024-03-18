@@ -2,16 +2,16 @@ Summary: API to manage grocery
 Technology: TS, node.js, express.js, postgres, jwt, docker
 
 1. To run the api 
-    a. using docker
-        `
+    - Using docker <br>
+        <code>
             docker-compose up -d
-        `
-    b. using node (before running setup local .env file)
-        `
-            npm install
-            npm run build
+        </code>
+    - Using node (before running setup local .env file)<br>
+        <code>
+            npm install <br>
+            npm run build <br>
             npm start
-        `
+        </code>
 
 2. DB schema
     DB has following tables to store all data dealt in service.
