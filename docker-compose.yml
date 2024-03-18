@@ -29,6 +29,7 @@ services:
       - DB_PASSWORD=password1
       - DB_DBNAME=events_collector
       - DB_PORT=5432
+      - JWT_SECRET=wits_52
     depends_on:
       db:
         condition: service_healthy
